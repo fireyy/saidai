@@ -41,7 +41,14 @@ This exposes the `saidai()` function as a global.
 ```js
 import saidai from 'saidai';
 
-// TODO: usage here
+const fullscreen = saidai()
+fullscreen.on('change', (isFull) => {
+  if (isFull) {
+    console.log('Fullscreen mode')
+  } else {
+    console.log('Normal mode')
+  }
+})
 ```
 
 ## Examples & Demos
