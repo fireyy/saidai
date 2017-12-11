@@ -19,7 +19,7 @@ export default [
 	},
 	{
 		input: 'src/index.js',
-		external: [],
+		external: ['knot.js'],
 		output: [
 			{ file: pkg.main, format: 'cjs' },
 			{ file: pkg.module, format: 'es' }

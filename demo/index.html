@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Saidai demo</title>
+</head>
+<body>
+  <button id="enter">Enter Fullscreen</button> & <button id="exit">Exit Fullscreen</button>
+  <script src="../dist/saidai.umd.js"></script>
+  <script>
+    const log = (isFull) => console.log(`Fullscreen mode: ${isFull ? 'ON' : 'OFF'}`)
+
+    const fullscreen = saidai()
+    log(fullscreen.isFullscreen())
+    fullscreen.on('change', isFull => log(isFull))
+    document.querySelector("#enter").addEventListener('click', () => {
+      fullscreen.request()
+    })
+    document.querySelector("#exit").addEventListener('click', () => {
+      fullscreen.exit()
+    })
+  </script>
+</body>
+</html>

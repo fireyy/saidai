@@ -42,6 +42,14 @@ This exposes the `saidai()` function as a global.
 import saidai from 'saidai';
 
 const fullscreen = saidai()
+
+// Request to Enter Fullscreen mode
+saidai.request()
+
+// Exit Fullscreen mode
+saidai.exit()
+
+// Listen to `fullscreenchange` event
 fullscreen.on('change', (isFull) => {
   if (isFull) {
     console.log('Fullscreen mode')
