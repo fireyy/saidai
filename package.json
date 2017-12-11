@@ -1,7 +1,7 @@
 {
   "name": "saidai",
   "description": "A simple wrapper of Fullscreen API.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "browser": "dist/saidai.umd.js",
   "main": "dist/saidai.cjs.js",
   "module": "dist/saidai.esm.js",
