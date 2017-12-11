@@ -43,6 +43,9 @@ import saidai from 'saidai';
 
 const fullscreen = saidai()
 
+// check if some element is in Fullscreen mode
+saidai.isFullscreen()
+
 // Request to Enter Fullscreen mode
 saidai.request()
 
@@ -50,18 +53,12 @@ saidai.request()
 saidai.exit()
 
 // Listen to `fullscreenchange` event
-fullscreen.on('change', (isFull) => {
-  if (isFull) {
-    console.log('Fullscreen mode')
-  } else {
-    console.log('Normal mode')
-  }
-})
+fullscreen.on('change', isFull => console.log(`Fullscreen mode: ${isFull ? 'ON' : 'OFF'}`))
 ```
 
 ## Examples & Demos
 
-[**Real Example on JSFiddle**](https://jsfiddle.net/fireyy/xxxxxxxx/) ➡️
+[**Real Example on JSFiddle**](https://jsfiddle.net/fireyy/x1fkk0hb/) ➡️
 
 ## API
 
@@ -72,3 +69,15 @@ saidai's API is organized as follows:
 saidai will account for the following properties in options:
 
   * `param` ....
+
+### `isFullscreen()`
+
+return if some element in Fullscreen mode
+
+### `request()`
+
+Request to Enter Fullscreen mode
+
+### `exit()`
+
+Exit Fullscreen mode

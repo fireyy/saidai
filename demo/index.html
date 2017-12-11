@@ -10,7 +10,7 @@
   <button id="enter">Enter Fullscreen</button> & <button id="exit">Exit Fullscreen</button>
   <script src="../dist/saidai.umd.js"></script>
   <script>
-    const log = (isFull) => console.log(`Fullscreen mode: ${isFull ? 'ON' : 'OFF'}`)
+    const log = isFull => console.log(`Fullscreen mode: ${isFull ? 'ON' : 'OFF'}`)
 
     const fullscreen = saidai()
     log(fullscreen.isFullscreen())
