@@ -81,26 +81,42 @@ var knot = function knot() {
 var d = document;
 var dd = document.documentElement;
 
-var getSupport = function (_, doc) { return _.reduce(function (prev, curr) { return (doc ? doc[curr] : dd[curr]) ? curr : prev; }, undefined); };
+var getSupport = function (_, doc) { return _.reduce(function (prev, curr) { return (doc ? curr in doc : curr in d) ? curr : prev; }, undefined); };
 
 var saidai = function (options) {
   if ( options === void 0 ) options = {};
 
 
-  var fullscreenchange = [
-    'fullscreenchange',
-    'MSFullscreenChange',
-    'mozfullscreenchange',
-    'webkitfullscreenchange'
-  ].reduce(function (prev, curr) { return ("on" + curr) in d ? curr : prev; }, undefined);
+  var fullscreenchange = getSupport([
+    'onfullscreenchange',
+    'onMSFullscreenChange',
+    'onmozfullscreenchange',
+    'onwebkitfullscreenchange'
+  ]).substr(2);
 
-  var fullscreenElement = [
+  var fullscreenElement = getSupport([
     'fullscreenElement',
     'msFullscreenElement',
     'mozFullScreenElement',
     'webkitFullscreenElement',
     'webkitCurrentFullScreenElement'
-  ].reduce(function (prev, curr) { return curr in d ? curr : prev; }, undefined);
+  ]);
+
+  var requestFullscreen = getSupport([
+    'requestFullscreen',
+    'msRequestFullscreen',
+    'mozRequestFullScreen',
+    'webkitRequestFullscreen'
+  ], dd);
+
+  var exitFullscreen = getSupport([
+    'exitFullscreen',
+    'cancelFullScreen',
+    'msExitFullscreen',
+    'mozCancelFullScreen',
+    'webkitExitFullscreen',
+    'webkitCancelFullScreen'
+  ]);
 
   var instance = knot({
     isFullscreen: function isFullscreen () {
@@ -108,23 +124,9 @@ var saidai = function (options) {
     },
     request: function request (el) {
       el = el || dd;
-      var requestFullscreen = getSupport([
-        'requestFullscreen',
-        'msRequestFullscreen',
-        'mozRequestFullScreen',
-        'webkitRequestFullscreen'
-      ]);
       el[requestFullscreen].call(el);
     },
     exit: function exit () {
-      var exitFullscreen = getSupport([
-        'exitFullscreen',
-        'cancelFullScreen',
-        'msExitFullscreen',
-        'mozCancelFullScreen',
-        'webkitExitFullscreen',
-        'webkitCancelFullScreen'
-      ], d);
       d[exitFullscreen].call(d);
     }
   });

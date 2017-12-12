@@ -3,24 +3,40 @@ import knot from 'knot.js'
 const d = document
 const dd = document.documentElement
 
-const getSupport = (_, doc) => _.reduce((prev, curr) => (doc ? doc[curr] : dd[curr]) ? curr : prev, undefined)
+const getSupport = (_, doc) => _.reduce((prev, curr) => (doc ? curr in doc : curr in d) ? curr : prev, undefined)
 
 const saidai = (options = {}) => {
 
-  const fullscreenchange = [
-    'fullscreenchange',
-    'MSFullscreenChange',
-    'mozfullscreenchange',
-    'webkitfullscreenchange'
-  ].reduce((prev, curr) => `on${curr}` in d ? curr : prev, undefined)
+  const fullscreenchange = getSupport([
+    'onfullscreenchange',
+    'onMSFullscreenChange',
+    'onmozfullscreenchange',
+    'onwebkitfullscreenchange'
+  ]).substr(2)
 
-  const fullscreenElement = [
+  const fullscreenElement = getSupport([
     'fullscreenElement',
     'msFullscreenElement',
     'mozFullScreenElement',
     'webkitFullscreenElement',
     'webkitCurrentFullScreenElement'
-  ].reduce((prev, curr) => curr in d ? curr : prev, undefined)
+  ])
+
+  const requestFullscreen = getSupport([
+    'requestFullscreen',
+    'msRequestFullscreen',
+    'mozRequestFullScreen',
+    'webkitRequestFullscreen'
+  ], dd)
+
+  const exitFullscreen = getSupport([
+    'exitFullscreen',
+    'cancelFullScreen',
+    'msExitFullscreen',
+    'mozCancelFullScreen',
+    'webkitExitFullscreen',
+    'webkitCancelFullScreen'
+  ])
 
   const instance = knot({
     isFullscreen () {
@@ -28,23 +44,9 @@ const saidai = (options = {}) => {
     },
     request (el) {
       el = el || dd
-      const requestFullscreen = getSupport([
-        'requestFullscreen',
-        'msRequestFullscreen',
-        'mozRequestFullScreen',
-        'webkitRequestFullscreen'
-      ])
       el[requestFullscreen].call(el)
     },
     exit () {
-      const exitFullscreen = getSupport([
-        'exitFullscreen',
-        'cancelFullScreen',
-        'msExitFullscreen',
-        'mozCancelFullScreen',
-        'webkitExitFullscreen',
-        'webkitCancelFullScreen'
-      ], d)
       d[exitFullscreen].call(d)
     }
   })

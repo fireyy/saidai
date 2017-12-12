@@ -1,1 +1,65 @@
-"use strict";function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e.default:e}var knot=_interopDefault(require("knot.js")),d=document,dd=document.documentElement,getSupport=function(e,n){return e.reduce(function(e,t){return(n?n[t]:dd[t])?t:e},void 0)},saidai=function(e){void 0===e&&(e={});var n=["fullscreenchange","MSFullscreenChange","mozfullscreenchange","webkitfullscreenchange"].reduce(function(e,n){return"on"+n in d?n:e},void 0),t=["fullscreenElement","msFullscreenElement","mozFullScreenElement","webkitFullscreenElement","webkitCurrentFullScreenElement"].reduce(function(e,n){return n in d?n:e},void 0),u=knot({isFullscreen:function(){return!!d[t]},request:function(e){(e=e||dd)[getSupport(["requestFullscreen","msRequestFullscreen","mozRequestFullScreen","webkitRequestFullscreen"])].call(e)},exit:function(){var e=getSupport(["exitFullscreen","cancelFullScreen","msExitFullscreen","mozCancelFullScreen","webkitExitFullscreen","webkitCancelFullScreen"],d);d[e].call(d)}});return d.addEventListener(n,function(e){return u.emit("change",u.isFullscreen())}),u};module.exports=saidai;
+'use strict';
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var knot = _interopDefault(require('knot.js'));
+
+var d = document;
+var dd = document.documentElement;
+
+var getSupport = function (_, doc) { return _.reduce(function (prev, curr) { return (doc ? curr in doc : curr in d) ? curr : prev; }, undefined); };
+
+var saidai = function (options) {
+  if ( options === void 0 ) options = {};
+
+
+  var fullscreenchange = getSupport([
+    'onfullscreenchange',
+    'onMSFullscreenChange',
+    'onmozfullscreenchange',
+    'onwebkitfullscreenchange'
+  ]).substr(2);
+
+  var fullscreenElement = getSupport([
+    'fullscreenElement',
+    'msFullscreenElement',
+    'mozFullScreenElement',
+    'webkitFullscreenElement',
+    'webkitCurrentFullScreenElement'
+  ]);
+
+  var requestFullscreen = getSupport([
+    'requestFullscreen',
+    'msRequestFullscreen',
+    'mozRequestFullScreen',
+    'webkitRequestFullscreen'
+  ], dd);
+
+  var exitFullscreen = getSupport([
+    'exitFullscreen',
+    'cancelFullScreen',
+    'msExitFullscreen',
+    'mozCancelFullScreen',
+    'webkitExitFullscreen',
+    'webkitCancelFullScreen'
+  ]);
+
+  var instance = knot({
+    isFullscreen: function isFullscreen () {
+      return !!d[fullscreenElement]
+    },
+    request: function request (el) {
+      el = el || dd;
+      el[requestFullscreen].call(el);
+    },
+    exit: function exit () {
+      d[exitFullscreen].call(d);
+    }
+  });
+
+  d.addEventListener(fullscreenchange, function (_) { return instance.emit('change', instance.isFullscreen()); });
+
+  return instance
+};
+
+module.exports = saidai;
