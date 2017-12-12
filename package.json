@@ -6,6 +6,15 @@
   "main": "dist/saidai.cjs.js",
   "module": "dist/saidai.esm.js",
   "jsnext:main": "dist/saidai.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fireyy/saidai.git"
+  },
+  "keywords": [
+    "fullscreen",
+    "requestFullscreen"
+  ],
+  "author": "fireyy <fireyy@gmail.com>",
   "dependencies": {
     "knot.js": "^1.1.5"
   },
